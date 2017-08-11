@@ -1,7 +1,5 @@
-
-function mainFunc() {
-
-	var sudokuArray = [
+//Test array
+var sudokuArray = [
 	8, 3, 1, 6, 5, 9, 7, 2, 4,
 	9, 7, 5, 2, 1, 4, 6, 3, 8,
 	2, 4, 6, 8, 7, 3, 1, 9, 5,
@@ -13,11 +11,14 @@ function mainFunc() {
 	6, 5, 8, 3, 4, 1, 9, 7, 2
 ];
 
-for(var i=0; i < 9; i++){
-	for(var j=0; j < 9; j++){
-		$("#row" + i +" #cell"+j).text(sudokuArray[(i*9)+j]);
-	}
-}
-//alert(sudokuArray);
+function init() {
+	//Temp var
+	var debug = true;
 
+	var mainGame = new MainGame();
+	mainGame.init();
+
+	if(debug) {
+		mainGame.showAllNumbers(sudokuArray);
+	}
 }
