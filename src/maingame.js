@@ -10,14 +10,18 @@ var MainGame = function() {
 
   this.CROSS_CANVAS_HEIGHT_WIDTH = this.VERTICAL_LINE_CANVAS_WIDTH;
 
+  this.LINE_WIDTH_NORMAL = 2;
+  this.LINE_WIDTH_THICK = 4;
+  this.LINE_ARROW_SIZE = 4;
+
   this.greaterThanHandler;
 };
 
 MainGame.prototype.constructor = MainGame;
 
-MainGame.prototype.init = function() {
+MainGame.prototype.init = function(sudokuArray) {
   this.addCellsWithNumbers(sudokuArray);
-  this.addLines();
+  this.addLines(sudokuArray);
   this.addCrosses();
 
   this.greaterThanHandler = new GreaterThanHandler();
@@ -63,58 +67,62 @@ MainGame.prototype.addCellsWithNumbers = function(sudokuArray) {
 	}
 }
 
-MainGame.prototype.addLines = function() {
-  this.addVerticalLines();
-  this.addHorizontalLines();
+MainGame.prototype.addLines = function(sudokuArray) {
+  this.addVerticalLines(sudokuArray);
+  this.addHorizontalLines(sudokuArray);
 
 }
 
-MainGame.prototype.addVerticalLines = function() {
+MainGame.prototype.addVerticalLines = function(sudokuArray) {
+  var CENTER_POINT = this.VERTICAL_LINE_CANVAS_WIDTH / 2;
+  var HEIGHT = this.VERTICAL_LINE_CANVAS_HEIGHT;
   var i,j;
 	for(i=0; i < this.NUMBER_OF_ROWS; i++){
 		for(j=0; j < this.NUMBER_OF_COLUMNS-1; j++){
       var c = document.getElementById("vertical_canvas"+i+"_"+j);
       var ctx = c.getContext("2d");
       ctx.beginPath();
-      ctx.moveTo(6,0);
-      ctx.lineTo(6,15);
+      ctx.moveTo(CENTER_POINT,0);
+      ctx.lineTo(CENTER_POINT,HEIGHT*0.375);
       if(i == 0 && j == 0){ //TODO: If adjacent is greater than current
-        ctx.lineTo(2,20);
+        ctx.lineTo(CENTER_POINT-this.LINE_ARROW_SIZE,HEIGHT*0.5);
       } else {
-        ctx.lineTo(10,20);
+        ctx.lineTo(CENTER_POINT+this.LINE_ARROW_SIZE,HEIGHT*0.5);
       }
-      ctx.lineTo(6,25);
-      ctx.lineTo(6,40);
+      ctx.lineTo(CENTER_POINT,HEIGHT*0.625);
+      ctx.lineTo(CENTER_POINT,HEIGHT);
       if(j == 2 || j == 5){
-        ctx.lineWidth = 4;
+        ctx.lineWidth = this.LINE_WIDTH_THICK;
       } else {
-        ctx.lineWidth = 2;
+        ctx.lineWidth = this.LINE_WIDTH_NORMAL;
       }
       ctx.stroke();
     }
   }
 }
 
-MainGame.prototype.addHorizontalLines = function() {
+MainGame.prototype.addHorizontalLines = function(sudokuArray) {
+  var CENTER_POINT = this.HORIZONTAL_LINE_CANVAS_HEIGHT / 2;
+  var WIDTH = this.HORIZONTAL_LINE_CANVAS_WIDTH;
   var i,j;
 	for(i=0; i < this.NUMBER_OF_ROWS-1; i++){
 		for(j=0; j < this.NUMBER_OF_COLUMNS; j++){
       var c = document.getElementById("horizontal_canvas"+i+"_"+j);
       var ctx = c.getContext("2d");
       ctx.beginPath();
-      ctx.moveTo(0,6);
-      ctx.lineTo(15,6);
+      ctx.moveTo(0,CENTER_POINT);
+      ctx.lineTo(WIDTH*0.375,CENTER_POINT);
       if(i == 0 && j == 0){ //TODO: If adjacent is greater than current
-        ctx.lineTo(20,2);
+        ctx.lineTo(WIDTH*0.5,CENTER_POINT-this.LINE_ARROW_SIZE);
       } else {
-        ctx.lineTo(20,10);
+        ctx.lineTo(WIDTH*0.5,CENTER_POINT+this.LINE_ARROW_SIZE);
       }
-      ctx.lineTo(25,6);
-      ctx.lineTo(40,6);
+      ctx.lineTo(WIDTH*0.625,CENTER_POINT);
+      ctx.lineTo(WIDTH,CENTER_POINT);
       if(i == 2 || i == 5){
-        ctx.lineWidth = 4;
+        ctx.lineWidth = this.LINE_WIDTH_THICK;
       } else {
-        ctx.lineWidth = 2;
+        ctx.lineWidth = this.LINE_WIDTH_NORMAL;
       }
       ctx.stroke();
     }
@@ -122,37 +130,37 @@ MainGame.prototype.addHorizontalLines = function() {
 }
 
 MainGame.prototype.addCrosses = function() {
+  var CENTER_POINT = this.CROSS_CANVAS_HEIGHT_WIDTH / 2;
   var i,j;
 	for(i=0; i < this.NUMBER_OF_ROWS-1; i++){
 		for(j=0; j < this.NUMBER_OF_COLUMNS-1; j++){
       var c = document.getElementById("cross"+i+"_"+j);
       var ctx = c.getContext("2d");
       ctx.beginPath();
-      ctx.moveTo(6,0);
-      ctx.lineTo(6,12);
+      ctx.moveTo(CENTER_POINT,0);
+      ctx.lineTo(CENTER_POINT,this.CROSS_CANVAS_HEIGHT_WIDTH);
 
       if(j == 2 || j == 5){
-        ctx.lineWidth = 4;
+        ctx.lineWidth = this.LINE_WIDTH_THICK;
       } else {
-        ctx.lineWidth = 2;
+        ctx.lineWidth = this.LINE_WIDTH_NORMAL;
       }
 
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.moveTo(0,6);
-      ctx.lineTo(12,6);
+      ctx.moveTo(0,CENTER_POINT);
+      ctx.lineTo(this.CROSS_CANVAS_HEIGHT_WIDTH,CENTER_POINT);
 
       if(i == 2 || i == 5){
-        ctx.lineWidth = 4;
+        ctx.lineWidth = this.LINE_WIDTH_THICK;
       } else {
-        ctx.lineWidth = 2;
+        ctx.lineWidth = this.LINE_WIDTH_NORMAL;
       }
 
       ctx.stroke();
 		}
 	}
-
 }
 
 MainGame.prototype.showAllNumbers = function(sudokuArray) {
