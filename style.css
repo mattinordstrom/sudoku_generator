@@ -5,7 +5,6 @@ body {
     margin: 0px;
     padding: 0px;
     font-family: "Verdana";
-    font-size: 14pt;
 }
 
 h1 {
@@ -15,13 +14,34 @@ h1 {
 }
 
 .sudokuContainer {
+  border: 2px solid;
   margin-left: 50px;
   border-spacing: 0px;
+  padding: 0px;
+}
+
+.sudokuContainer tr{
+  line-height: 0px;
 }
 
 .sudokuContainer td{
-  border: 1px solid;
+  padding: 0px;
+}
+
+.numberCell{
   width: 40px;
   height: 40px;
   text-align: center;
+}
+
+#canvasLineVertical {
+  height:40px;
+  width: 12px;
+  padding: 0px;
+}
+
+#canvasLineHorizontal {
+  height:12px;
+  width:40px;
+  padding: 0px;
 }
