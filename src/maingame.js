@@ -1,4 +1,6 @@
-var MainGame = function() {
+var MainGame = function(sudokuArray) {
+  this.sudokuArray = sudokuArray;
+
   this.NUMBER_OF_ROWS = 9;
   this.NUMBER_OF_COLUMNS = 9;
 
@@ -14,21 +16,20 @@ var MainGame = function() {
   this.LINE_WIDTH_THICK = 4;
   this.LINE_ARROW_SIZE = 4;
 
-  this.greaterThanHandler;
+  this.greaterThanHandler = new GreaterThanHandler(sudokuArray);
+
+  this.sudokuArray = [];
 };
 
 MainGame.prototype.constructor = MainGame;
 
-MainGame.prototype.init = function(sudokuArray) {
-  this.addCellsWithNumbers(sudokuArray);
-  this.addLines(sudokuArray);
+MainGame.prototype.init = function() {
+  this.addCellsWithNumbers();
+  this.addLines();
   this.addCrosses();
-
-  this.greaterThanHandler = new GreaterThanHandler();
-  this.greaterThanHandler.setUI();
 }
 
-MainGame.prototype.addCellsWithNumbers = function(sudokuArray) {
+MainGame.prototype.addCellsWithNumbers = function() {
 	var i,j;
 	for(i=0; i < this.NUMBER_OF_ROWS; i++){
     var containerElement = $('.sudokuContainer');
@@ -67,13 +68,13 @@ MainGame.prototype.addCellsWithNumbers = function(sudokuArray) {
 	}
 }
 
-MainGame.prototype.addLines = function(sudokuArray) {
-  this.addVerticalLines(sudokuArray);
-  this.addHorizontalLines(sudokuArray);
+MainGame.prototype.addLines = function() {
+  this.addVerticalLines();
+  this.addHorizontalLines();
 
 }
 
-MainGame.prototype.addVerticalLines = function(sudokuArray) {
+MainGame.prototype.addVerticalLines = function() {
   var CENTER_POINT = this.VERTICAL_LINE_CANVAS_WIDTH / 2;
   var HEIGHT = this.VERTICAL_LINE_CANVAS_HEIGHT;
   var i,j;
@@ -84,7 +85,7 @@ MainGame.prototype.addVerticalLines = function(sudokuArray) {
       ctx.beginPath();
       ctx.moveTo(CENTER_POINT,0);
       ctx.lineTo(CENTER_POINT,HEIGHT*0.375);
-      if(i == 0 && j == 0){ //TODO: If adjacent is greater than current
+      if(this.greaterThanHandler.isAdjacentGreater(i,j,false)){
         ctx.lineTo(CENTER_POINT-this.LINE_ARROW_SIZE,HEIGHT*0.5);
       } else {
         ctx.lineTo(CENTER_POINT+this.LINE_ARROW_SIZE,HEIGHT*0.5);
@@ -101,7 +102,7 @@ MainGame.prototype.addVerticalLines = function(sudokuArray) {
   }
 }
 
-MainGame.prototype.addHorizontalLines = function(sudokuArray) {
+MainGame.prototype.addHorizontalLines = function() {
   var CENTER_POINT = this.HORIZONTAL_LINE_CANVAS_HEIGHT / 2;
   var WIDTH = this.HORIZONTAL_LINE_CANVAS_WIDTH;
   var i,j;
@@ -112,7 +113,7 @@ MainGame.prototype.addHorizontalLines = function(sudokuArray) {
       ctx.beginPath();
       ctx.moveTo(0,CENTER_POINT);
       ctx.lineTo(WIDTH*0.375,CENTER_POINT);
-      if(i == 0 && j == 0){ //TODO: If adjacent is greater than current
+      if(this.greaterThanHandler.isAdjacentGreater(i,j,true)){
         ctx.lineTo(WIDTH*0.5,CENTER_POINT-this.LINE_ARROW_SIZE);
       } else {
         ctx.lineTo(WIDTH*0.5,CENTER_POINT+this.LINE_ARROW_SIZE);

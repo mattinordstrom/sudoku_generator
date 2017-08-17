@@ -14,8 +14,8 @@ function init() {
 	//Temp var
 	var debug = true;
 
-	var mainGame = new MainGame();
-	mainGame.init(sudokuArray);
+	var mainGame = new MainGame(sudokuArray);
+	mainGame.init();
 
 	if(debug) {
 		mainGame.showAllNumbers(sudokuArray);
