@@ -18,7 +18,6 @@ var MainGame = function(sudokuArray) {
 
   this.greaterThanHandler = new GreaterThanHandler(sudokuArray);
 
-  this.sudokuArray = [];
 };
 
 MainGame.prototype.constructor = MainGame;
@@ -164,11 +163,11 @@ MainGame.prototype.addCrosses = function() {
 	}
 }
 
-MainGame.prototype.showAllNumbers = function(sudokuArray) {
+MainGame.prototype.showAllNumbers = function() {
 	var i,j;
 	for(i=0; i < this.NUMBER_OF_ROWS; i++){
 		for(j=0; j < this.NUMBER_OF_COLUMNS; j++){
-			$('#row' + i +' #cell'+j).text(sudokuArray[(i*9)+j]);
+			$('#row' + i +' #cell'+j).text(this.sudokuArray[(i*9)+j]);
 		}
 	}
 }

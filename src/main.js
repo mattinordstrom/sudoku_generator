@@ -1,3 +1,4 @@
+var mainGame;
 function init() {
 	var sudokuArray = [
 		8, 3, 1, 6, 5, 9, 7, 2, 4,
@@ -11,13 +12,9 @@ function init() {
 		6, 5, 8, 3, 4, 1, 9, 7, 2
 	];
 
-	//Temp var
-	var debug = true;
-
-	var mainGame = new MainGame(sudokuArray);
+	mainGame = new MainGame(sudokuArray);
 	mainGame.init();
 
-	if(debug) {
-		mainGame.showAllNumbers(sudokuArray);
-	}
+	mainGame.showAllNumbers();
+
 }
